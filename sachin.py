@@ -1,0 +1,1 @@
+print("Sabse pehle aapne ghabrana nai hai ,,,,,,")
