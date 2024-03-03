@@ -5,15 +5,9 @@ import ply.yacc as yacc
 from urllib.request import Request, urlopen
 import sys
 from urllib.request import Request, urlopen
-
-# user_input = input("Enter the country Name: ")
-# # print(user_input)
-
-# user_input = user_input.replace(" ", "_")
-# # print(user_input)
-
-
 current_directory = os.path.dirname(os.path.abspath(__file__))
+
+links = {}
 
 # DEFINING TOKENS
 tokens = ('BEGINTABLE', 'ENDDATA',
@@ -21,10 +15,7 @@ tokens = ('BEGINTABLE', 'ENDDATA',
 'OPENHEADER', 'CLOSEHEADER', 'OPENHREF', 'CLOSEHREF',
 'CONTENT', 'OPENDATA', 'CLOSEDATA' ,'OPENSPAN','CLOSESPAN', 
 'OPENDIV', 'CLOSEDIV', 'OPENSTYLE', 'CLOSESTYLE','GARBAGE','IGNOREDATA')
-import os
 t_ignore = '\t'
-
-links = {}
 
 # Tokenizer Rules
 def t_BEGINTABLE(t):
@@ -56,7 +47,6 @@ def t_CLOSEHEADER(t):
 def t_OPENHREF(t):
     r'<a[^>]*>'
     return t
-
 
 def t_OPENDIV(t):
     r'<div[^>]*>'
@@ -102,10 +92,6 @@ def t_error(t):
 # GRAMMAR RULES
 def p_start(p):
     '''start : table'''
-    # p[0] = p[1]
-
-    
-
 
 def p_links(p):
     '''links : OPENHREF CONTENT links 
@@ -117,76 +103,49 @@ def p_links(p):
         substring = "England"
         if p[2].find(substring) != -1:
             links[p[2]] = p[0]
-       
-        # print(p[0])
-        # print(p[2])
     else: 
         p[0]=''
-    # print(p[1])
-def printoutput():
-    # links = ["https://en.wikipedia.org" + element.split('"')[1] for element in links]
-    # for link in links:
-    #     print(link)
 
-    # names = [element.split("https://en.wikipedia.org//wiki/")[1] for element in links]
-    # print(names)
-    links_dict = {}
-
+def output1():
+    link1 = {}
     for key, value in links.items():
         link = "https://en.wikipedia.org" + value.split('"')[1]
-        links_dict[key] = link
-    # query = sys.argv[1]
-    # print(links_dict)
-    # if query == "England (July-December 2020)":
-    #     query = "England (July–December 2020)"
-    
-    # if query == "England (January-June 2020)":
-    #     query = "England (January–June 2020)"
-    # name = link.split("https://en.wikipedia.org//wiki/")[1]
-    for query in links_dict:
-        req = Request(links_dict[query],headers ={'User-Agent':'Mozilla/5.0'})
+        link1[key] = link
+    for query in link1:
+        req = Request(link1[query],headers ={'User-Agent':'Mozilla/5.0'})
         webpage = urlopen(req).read()
-        mydata = webpage.decode("utf8")
+        data1 = webpage.decode("utf8")
         f=open('countrynews.html','w',encoding="utf-8")
-        f.write(mydata)
+        f.write(data1)
         f.close()
-        # subprocess.run(["python", os.path.join(current_directory, "Ta2.py")])
         subprocess.run(["python3", os.path.join(current_directory, "england.py"), f'{query}.txt'])
         
 def p_table(p):
     '''table : BEGINTABLE  links ENDDATA'''
 
-
 def p_empty(p):
     '''empty : '''
     pass
-
 
 def p_error(p):
     pass
 #########DRIVER FUNCTION#######
 def main():
     url = f"https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic"
-
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     f = open('Timeline of the COVID-19 pandemic.html', 'w', encoding="utf-8")
     webpage = urlopen(req).read()
-    mydata = webpage.decode("utf8")
-    f.write(mydata)
+    data1 = webpage.decode("utf8")
+    f.write(data1)
     f.close()
-
     file_obj= open('Timeline of the COVID-19 pandemic.html','r',encoding="utf-8")
     data=file_obj.read()
     lexer = lex.lex()
     lexer.input(data)
-    # for tok in lexer:
-    #     print(tok)
     parser = yacc.yacc()
     parser.parse(data)
     file_obj.close()
-    printoutput()
-    # print(links)
-    
+    output1()
 
 if __name__ == '__main__':
     main()

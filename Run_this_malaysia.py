@@ -5,28 +5,18 @@ import ply.yacc as yacc
 from urllib.request import Request, urlopen
 import sys
 from urllib.request import Request, urlopen
-
-# user_input = input("Enter the country Name: ")
-# # print(user_input)
-
-# user_input = user_input.replace(" ", "_")
-# # print(user_input)
-
-
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
-# DEFINING TOKENS
+##########DEFINING TOKENS#####################
 tokens = ('BEGINTABLE', 'ENDDATA',
 'OPENTABLE', 'CLOSETABLE', 'OPENROW', 'CLOSEROW',
 'OPENHEADER', 'CLOSEHEADER', 'OPENHREF', 'CLOSEHREF',
 'CONTENT', 'OPENDATA', 'CLOSEDATA' ,'OPENSPAN','CLOSESPAN', 
 'OPENDIV', 'CLOSEDIV', 'OPENSTYLE', 'CLOSESTYLE','GARBAGE','IGNOREDATA')
-import os
+
 t_ignore = '\t'
-
 links = {}
-
-# Tokenizer Rules
+#############Tokenizer Rules###################
 def t_BEGINTABLE(t):
      r'<a.href="/wiki/Timeline_of_the_COVID-19_pandemic_in_Malaysia"'
      return t
@@ -56,7 +46,6 @@ def t_CLOSEHEADER(t):
 def t_OPENHREF(t):
     r'<a[^>]*>'
     return t
-
 
 def t_OPENDIV(t):
     r'<div[^>]*>'
@@ -95,17 +84,12 @@ def t_CONTENT(t):
     r'[A-Za-z0-9, ()–]+'
     return t
 
-
 def t_error(t):
     t.lexer.skip(1)
 
-# GRAMMAR RULES
+##########GRAMMAR RULES###########
 def p_start(p):
     '''start : table'''
-    # p[0] = p[1]
-
-    
-
 
 def p_links(p):
     '''links : OPENHREF CONTENT links 
@@ -115,72 +99,51 @@ def p_links(p):
         p[0] = p[1] + p[3]
         global links
         links[p[2]] = p[0]
-        # print(p[0])
-        # print(p[2])
     else: 
         p[0]=''
-    # print(p[1])
-def printoutput():
-    # links = ["https://en.wikipedia.org" + element.split('"')[1] for element in links]
-    # for link in links:
-    #     print(link)
 
-    # names = [element.split("https://en.wikipedia.org//wiki/")[1] for element in links]
-    # print(names)
-    links_dict = {}
-
-    for key, value in links.items():
-        link = "https://en.wikipedia.org" + value.split('"')[1]
-        links_dict[key] = link
-    # query = sys.argv[1]
-    # print(links_dict)
-    
-    # name = link.split("https://en.wikipedia.org//wiki/")[1]
-    for query in links_dict:
-            req = Request(links_dict[query],headers ={'User-Agent':'Mozilla/5.0'})
-            webpage = urlopen(req).read()
-            mydata = webpage.decode("utf8")
-            f=open('countrynews.html','w',encoding="utf-8")
-            f.write(mydata)
-            f.close
-            # subprocess.run(["python", os.path.join(current_directory, "Ta2.py")])
-            subprocess.run(["python3", os.path.join(current_directory, "malaysia.py"), f'{query}.txt'])
-            
 def p_table(p):
     '''table : BEGINTABLE  links ENDDATA'''
 
+def output1():
+    links1 = {}
+
+    for key, value in links.items():
+        link = "https://en.wikipedia.org" + value.split('"')[1]
+        links1[key] = link
+    for query in links1:
+            req = Request(links1[query],headers ={'User-Agent':'Mozilla/5.0'})
+            webpage = urlopen(req).read()
+            data1 = webpage.decode("utf8")
+            f=open('countrynews.html','w',encoding="utf-8")
+            f.write(data1)
+            f.close
+            subprocess.run(["python3", os.path.join(current_directory, "malaysia.py"), f'{query}.txt'])
 
 def p_empty(p):
     '''empty : '''
     pass
 
-
 def p_error(p):
     pass
+
 #########DRIVER FUNCTION#######
 def main():
     url = f"https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic"
-
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     f = open('Timeline of the COVID-19 pandemic.html', 'w', encoding="utf-8")
     webpage = urlopen(req).read()
-    mydata = webpage.decode("utf8")
-    f.write(mydata)
+    data1 = webpage.decode("utf8")
+    f.write(data1)
     f.close()
-
     file_obj= open('Timeline of the COVID-19 pandemic.html','r',encoding="utf-8")
     data=file_obj.read()
     lexer = lex.lex()
     lexer.input(data)
-    # for tok in lexer:
-    #     print(tok)
     parser = yacc.yacc()
     parser.parse(data)
     file_obj.close()
-    printoutput()
-    # print(links)
-    
-    
+    output1()
 
 if __name__ == '__main__':
     main()

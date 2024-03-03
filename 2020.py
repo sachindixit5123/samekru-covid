@@ -8,10 +8,9 @@ player = 0
 tokens = ('DATE', 'OPENP', 'CLOSEP', 'CONTENT')
 t_ignore = '\t '
 
-###############Tokenizer Rules################
+#######################Tokenizer Rules########################
 def t_DATE(t):
      r'(?:On|By|Also.on|Still.on|As.of|On.[a-z ]*|From)\s(0?[1-9]|[12][0-9]|3[01])\s(?:January|February|March|April|May|June|July|August|September|October|November|December)'
-    #  print("here")
      return t
 
 def t_OPENP(t):
@@ -66,26 +65,19 @@ def p_content(p):
 
 def p_error(p):
     pass
-    # if p:
-    #     print("Syntax error at '%s'" % p)
-    # else:
-    #     print("Syntax error at EOF")
-    # return
 
 def main():
     req = Request('https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic_in_Australia_(2020)',headers ={'User-Agent':'Mozilla/5.0'})
     webpage = urlopen(req).read()
-    mydata = webpage.decode("utf8")
+    data1 = webpage.decode("utf8")
     f=open('webpage.html','w',encoding="utf-8")
-    f.write(mydata)
+    f.write(data1)
     f.close
     file_obj = open('webpage.html','r',encoding="utf-8")
     data = file_obj.read()
     lexer = lex.lex()
     lexer.input(data)
     print("lex completed")
-    # for tok in lexer:
-    #     print(tok)
     parser = yacc.yacc()
     parser.parse(data)
 

@@ -6,12 +6,11 @@ name = ""
 date = ""
 player = 0
 tokens = ('DATE', 'OPENP', 'CLOSEP', 'CONTENT')
-t_ignore = '\t '
+t_ignore = '\t'
 
 ###############Tokenizer Rules################
 def t_DATE(t):
      r'(?:On|By|Also.on|Still.on|As.of|On.[a-z ]*|From)\s(0?[1-9]|[12][0-9]|3[01])\s(?:January|February|March|April|May|June|July|August|September|October|November|December)'
-    #  print("here")
      return t
 
 def t_OPENP(t):
@@ -32,6 +31,21 @@ def t_CONTENT(t):
 def t_error(t):
     t.lexer.skip(1)
 
+
+
+def p_content(p):
+    '''
+    content : CONTENT content
+            | DATE content
+            | 
+    '''
+    global name
+    if(len(p)==3):
+        name = p[1]+name
+
+def p_error(p):
+    pass
+
 def p_start(p):
     '''
     start : OPENP DATE content CLOSEP
@@ -39,7 +53,7 @@ def p_start(p):
     '''
     global name
     pattern = r'\b\d{1,2}\s*(?:st|nd|rd|th)?\s+\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b'
-    
+
     with open('Australia_(2022).txt', 'a') as the_file:
         if(len(p)==5):
             matches = re.findall(pattern, p[2])
@@ -56,24 +70,6 @@ def p_start(p):
             the_file.write(p[1]+" "+name)
             name = ""
 
-def p_content(p):
-    '''
-    content : CONTENT content
-            | DATE content
-            | 
-    '''
-    global name
-    if(len(p)==3):
-        name = p[1]+name
-
-def p_error(p):
-    pass
-    # if p:
-    #     print("Syntax error at '%s'" % p)
-    # else:
-    #     print("Syntax error at EOF")
-    # return
-
 def main():
     req = Request('https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic_in_Australia_(2022)',headers ={'User-Agent':'Mozilla/5.0'})
     webpage = urlopen(req).read()
@@ -86,8 +82,6 @@ def main():
     lexer = lex.lex()
     lexer.input(data)
     print("lex completed")
-    # for tok in lexer:
-    #     print(tok)
     parser = yacc.yacc()
     parser.parse(data)
 

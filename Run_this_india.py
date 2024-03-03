@@ -3,22 +3,14 @@ import ply.lex as lex
 import ply.yacc as yacc
 import GetURLIndia
 import re
-env={}
-def downloadwebpage(url,filename):
-    # print(url)
-    req = Request(url,headers ={'User-Agent':'Mozilla/5.0'})
-    webpage = urlopen(req).read()
-    mydata = webpage.decode("utf8")
-    f=open(f'{filename}.html','w',encoding="utf-8")
-    f.write(mydata)
-    f.close
 
-###DEFINING TOKENS###
+##############################DEFINING TOKENS###############################
+
 tokens = ('HTAG', 'CLOSEHTAG','OPENDATA', 'CLOSEDATA', 'LINKTABLE', 'PLAINTABLE', 'START', 'END' , 'OPENTABLE', 'CLOSETABLE', 'CAPTION', 'ANCHORREF', 'CLOSEANCHORREF', 'EDITANCHOR', 'CLOSEEDITANCHOR', 'OPENP', 'CLOSEP', 'OPENLI', 'CLOSELI', 'OPENROW', 'CLOSEROW', 'OPENSTYLE', 'CLOSESTYLE', 'OPENTAG', 'CLOSETAG', 'OPENCLOSETAG', 'BREAK', 'CONTENT')
 t_ignore = r' \t\n '
-
 str1 = ""
-###############Tokenizer Rules################
+
+#######################Tokenizer Rules######################################
 
 def t_CAPTION(t):
     r'Major.events.of.COVID\-19.pandemic.in.India.(till|in).(January|February|March|April|May|June|July|August|September|October|November|December)'
@@ -140,10 +132,7 @@ def t_error(t):
 def p_start(p):
     '''start : START skiptag'''
     p[0]=p[2]
-    #print(p[1])
     p[0]=p[0].replace('&amp;','and')
-    # env['data']=p[0]
-    # print(p[0])
     global str1
     str1 = str1 + p[0]
 
@@ -179,8 +168,7 @@ def p_skiptag(p):
         p[0]=p[2]+p[3]
     else:
         p[0]=p[2]
-    # print(p[0])
-    
+
 def p_skiptag1(p):
     '''skiptag1 : OPENTABLE skiptag1
                 | CLOSETABLE skiptag1
@@ -214,14 +202,13 @@ def p_skiptag1(p):
         p[0]=p[2]
     else:
         p[0]=p[1]
-    # print(p[0])
               
 def p_skipanchorrefp(p):
     '''skipanchorrefp : OPENTAG skipanchorrefp
                       | CLOSETAG skipanchorrefp
                       | CONTENT skipanchorrefp
                       | CLOSEANCHORREF'''
-    #print(p[1])
+
     
 def p_skipeditanchor(p):
     '''skipeditanchor : OPENTAG skipeditanchor
@@ -229,7 +216,7 @@ def p_skipeditanchor(p):
                       | CONTENT skipeditanchor
                       | EDITANCHOR skipeditanchor
                       | CLOSEEDITANCHOR'''
-    #print(p[1])
+
 
 def p_skipcaption(p):
     '''skipcaption : OPENTABLE skipcaption 
@@ -256,7 +243,7 @@ def p_skipcaption(p):
                    | OPENDATA skipcaption
                    | CLOSEDATA skipcaption
                    | CLOSETABLE'''
-    #print(p[1])
+
     p[0]=""
 
 def p_gettitle(p):
@@ -284,7 +271,7 @@ def p_gettitle(p):
                 | OPENP getpcontent
                 | OPENTABLE gettablecontent
                 | OPENLI getlicontent'''
-    #print(p[1])
+
     if(len(p)==4):
         p[0]=p[3]
     elif(p.slice[1].type=='CONTENT'):
@@ -314,7 +301,7 @@ def p_getpcontent(p):
                    | CLOSEHTAG getpcontent
                    | CLOSEANCHORREF getpcontent
                    | CLOSEP getnext'''
-    #print(p[1])
+
     if(len(p)==4):
         p[0]=p[3]
     elif(p.slice[1].type=='CONTENT'):
@@ -331,12 +318,12 @@ def p_getnext(p):
         p[0]=": "+p[2]
     else:
         p[0]=p[1]
-    # print(p[1])
+
 
 def p_getnext1(p):
     '''getnext1 : START skiptag
                 | OPENTAG'''
-    # print(p[1])
+
     if(len(p)==2):
         p[0]=""
     else:
@@ -382,7 +369,7 @@ def p_getrowdata(p):
                   | ANCHORREF skipanchorrefp getrowdata
                   | EDITANCHOR skipeditanchor getrowdata
                   | CLOSEROW'''
-    # #print(p[1])
+
     if(p.slice[1].type=='OPENDATA'):
         p[0]=p[2]+': '+p[3]
     elif(len(p)==4):
@@ -413,7 +400,6 @@ def p_getdata(p):
     else:
         p[0]=""
         
-    
 def p_getlicontent(p):
     '''getlicontent : OPENTABLE getlicontent
                     | ANCHORREF skipanchorrefp getlicontent
@@ -431,7 +417,7 @@ def p_getlicontent(p):
                     | CLOSEHTAG getlicontent
                     | CLOSEANCHORREF getlicontent
                     | CLOSELI getnextli'''
-    # print(p[1])
+
     if(len(p)==4):
         p[0]=p[3]
     elif(p.slice[1].type=='CONTENT'):
@@ -445,38 +431,37 @@ def p_getlicontent(p):
     else:
         p[0]=""
 
-    # print(p[0])
-        
 def p_getnextli(p):
     '''getnextli : END getnext1
                  | CLOSETAG END getnext1
                  | skiptag1'''
-    # print(p[1])
     if(p.slice[1].type=='END'):
         p[0]=": "+p[2]
     elif(len(p)==4):
-        # print(p[2])
         p[0]=p[3]
     else:
         p[0]=p[1]
 
 def p_error(p):
-    # print(p)
     pass
 
 urls=GetURLIndia.getUrlsIndia()
 timelines=list(urls)
-# print(timelines)
+
+def downloadwebpage(url,filename):
+    req = Request(url,headers ={'User-Agent':'Mozilla/5.0'})
+    webpage = urlopen(req).read()
+    mydata = webpage.decode("utf8")
+    f=open(f'{filename}.html','w',encoding="utf-8")
+    f.write(mydata)
+    f.close
 
 for timeline in timelines:
-# timeline=timelines[2]
     downloadwebpage(urls[timeline],timeline)
     file_obj = open(f'{timeline}.html','r',encoding="utf-8")
     data = file_obj.read()
     lexer = lex.lex()
     lexer.input(data)
-    # for tok in lexer:
-    #     print(tok)
     parser = yacc.yacc()
     parser.parse(data)
     print(timeline)
@@ -484,7 +469,7 @@ for timeline in timelines:
         with open(f'{timeline}.txt', 'w', encoding='utf-8') as file:
             file.write(str1)
     except UnicodeEncodeError:
-        print("Some characters couldn't be encoded. Ignoring them...")
+        print("Ignoring some characters which will not be encoded")
         with open(f'{timeline}.txt', 'w', encoding='utf-8', errors='ignore') as file:
             file.write(str1.encode('utf-8', 'ignore').decode('utf-8'))
     str =""

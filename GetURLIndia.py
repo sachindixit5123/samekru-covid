@@ -2,7 +2,6 @@ from urllib.request import Request, urlopen
 import ply.lex as lex
 import ply.yacc as yacc
 import re
-
 def downloadwebpage(url):
     req = Request(url,headers ={'User-Agent':'Mozilla/5.0'})
     webpage = urlopen(req).read()
@@ -15,11 +14,11 @@ url="https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic"
 downloadwebpage(url)
 env={}
 
-###DEFINING TOKENS###
+###################DEFINING TOKENS######################
 tokens = ('START', 'END', 'ANCHOR', 'OPENSTYLE', 'CLOSESTYLE', 'HTAG', 'OPENTAG', 'CLOSETAG', 'OPENCLOSETAG', 'BREAK', 'CONTENT')
 t_ignore = r' \t\n '
 
-###############Tokenizer Rules################
+###############TOKENIZER RULES################
 
 def t_START(t):
     r'<a.href=\"\/wiki\/Timeline_of_the_COVID\-19_pandemic_in_India\".title=\"Timeline.of.the.COVID\-19.pandemic.in.India\">India<\/a>'

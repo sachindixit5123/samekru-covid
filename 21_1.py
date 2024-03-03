@@ -8,10 +8,9 @@ player = 0
 tokens = ('DATE', 'OPENP', 'CLOSEP', 'CLOSEL', 'CONTENT',  'PCONTENT', 'LCONTENT')
 t_ignore = '\t '
 
-###############Tokenizer Rules################
+###############Tokenizer Rules######################
 def t_DATE(t):
      r'((?:On|By|Also.on|Still.on|As.of|On.[a-z ]*|From)\s(0?[1-9]|[12][0-9]|3[01])(&\#160;\s|&\#160;|\s)(?:January|February|March|April|May|June|July|August|September|October|November|December))|On.the.same.day'
-    #  print("here")
      return t
 
 def t_PCONTENT(t):
@@ -84,7 +83,6 @@ def p_additional(p):
                | 
     '''
     
-
 def p_additionaldata(p):
     '''
     additionaldata : porlcontent CLOSEP  
@@ -94,7 +92,6 @@ def p_additionaldata(p):
     with open('Australia_(Jan-Jun 21).txt', 'a') as the_file:
         the_file.write(f'\n')
         the_file.write(name)
-        # print(name)
         name = ""
 
 def p_porlcontent(p):
@@ -124,11 +121,6 @@ def p_content(p):
 
 def p_error(p):
     pass
-    # if p:
-    #     print("Syntax error at '%s'" % p)
-    # else:
-    #     print("Syntax error at EOF")
-    # return
 
 def main():
     req = Request('https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic_in_Australia_(January%E2%80%93June_2021)',headers ={'User-Agent':'Mozilla/5.0'})
@@ -142,8 +134,6 @@ def main():
     lexer = lex.lex()
     lexer.input(data)
     print("lex completed")
-    # for tok in lexer:
-    #     print(tok)
     parser = yacc.yacc()
     parser.parse(data)
 
