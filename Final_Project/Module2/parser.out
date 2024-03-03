@@ -1,0 +1,938 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CLOSE_PARA
+    CLOSE_SPAN
+    GARBAGE
+    OPEN_PARA
+    OPEN_SPAN
+    WRONG_DATA
+
+Grammar
+
+Rule 0     S' -> start
+Rule 1     start -> table
+Rule 2     handle_header -> OPEN_HEADER content CLOSE_HEADER content handle_fig handle_header
+Rule 3     handle_header -> OPEN_HEADER content CLOSE_HEADER handle_fig content handle_header
+Rule 4     handle_header -> OPEN_HEADER content CLOSE_HEADER content handle_header
+Rule 5     handle_header -> OPEN_HEADER
+Rule 6     handle_header -> handle_list handle_header
+Rule 7     handle_header -> empty
+Rule 8     handle_fig -> FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE handle_fig
+Rule 9     handle_fig -> <empty>
+Rule 10    skip -> CONTENT skip
+Rule 11    skip -> OPEN_LIST skip
+Rule 12    skip -> CLOSE_LIST skip
+Rule 13    skip -> empty
+Rule 14    handle_list -> OPEN_LIST content handle_list CLOSE_LIST handle_list
+Rule 15    handle_list -> OPEN_LIST content CLOSE_LIST handle_list
+Rule 16    handle_list -> content handle_list
+Rule 17    handle_list -> empty
+Rule 18    content -> CONTENT content
+Rule 19    content -> empty
+Rule 20    table -> OPEN_TABLE content CLOSE_HEADER handle_header CLOSE_TABLE
+Rule 21    table -> OPEN_TABLE handle_header CLOSE_TABLE
+Rule 22    empty -> <empty>
+
+Terminals, with rules where they appear
+
+CLOSE_HEADER         : 2 3 4 20
+CLOSE_LIST           : 12 14 15
+CLOSE_PARA           : 
+CLOSE_SPAN           : 
+CLOSE_TABLE          : 20 21
+CONTENT              : 10 18
+FIG_CAPTION_CLOSE    : 8
+FIG_CAPTION_OPEN     : 8
+GARBAGE              : 
+OPEN_HEADER          : 2 3 4 5
+OPEN_LIST            : 11 14 15
+OPEN_PARA            : 
+OPEN_SPAN            : 
+OPEN_TABLE           : 20 21
+WRONG_DATA           : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+content              : 2 2 3 3 4 4 14 15 16 18 20
+empty                : 7 13 17 19
+handle_fig           : 2 3 8
+handle_header        : 2 3 4 6 20 21
+handle_list          : 6 14 14 15 16
+skip                 : 8 10 11 12
+start                : 0
+table                : 1
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . start
+    (1) start -> . table
+    (20) table -> . OPEN_TABLE content CLOSE_HEADER handle_header CLOSE_TABLE
+    (21) table -> . OPEN_TABLE handle_header CLOSE_TABLE
+
+    OPEN_TABLE      shift and go to state 3
+
+    start                          shift and go to state 1
+    table                          shift and go to state 2
+
+state 1
+
+    (0) S' -> start .
+
+
+
+state 2
+
+    (1) start -> table .
+
+    $end            reduce using rule 1 (start -> table .)
+
+
+state 3
+
+    (20) table -> OPEN_TABLE . content CLOSE_HEADER handle_header CLOSE_TABLE
+    (21) table -> OPEN_TABLE . handle_header CLOSE_TABLE
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (2) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_fig handle_header
+    (3) handle_header -> . OPEN_HEADER content CLOSE_HEADER handle_fig content handle_header
+    (4) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_header
+    (5) handle_header -> . OPEN_HEADER
+    (6) handle_header -> . handle_list handle_header
+    (7) handle_header -> . empty
+    (22) empty -> .
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+
+  ! shift/reduce conflict for CONTENT resolved as shift
+  ! shift/reduce conflict for OPEN_HEADER resolved as shift
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+    CONTENT         shift and go to state 6
+    OPEN_HEADER     shift and go to state 8
+    CLOSE_HEADER    reduce using rule 22 (empty -> .)
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+    OPEN_LIST       shift and go to state 10
+
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_HEADER     [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 4
+    handle_header                  shift and go to state 5
+    empty                          shift and go to state 7
+    handle_list                    shift and go to state 9
+
+state 4
+
+    (20) table -> OPEN_TABLE content . CLOSE_HEADER handle_header CLOSE_TABLE
+    (16) handle_list -> content . handle_list
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (22) empty -> .
+
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! shift/reduce conflict for CONTENT resolved as shift
+    CLOSE_HEADER    shift and go to state 12
+    OPEN_LIST       shift and go to state 10
+    CONTENT         shift and go to state 6
+    OPEN_HEADER     reduce using rule 22 (empty -> .)
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 11
+    handle_list                    shift and go to state 13
+    empty                          shift and go to state 14
+
+state 5
+
+    (21) table -> OPEN_TABLE handle_header . CLOSE_TABLE
+
+    CLOSE_TABLE     shift and go to state 15
+
+
+state 6
+
+    (18) content -> CONTENT . content
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (22) empty -> .
+
+  ! shift/reduce conflict for CONTENT resolved as shift
+    CONTENT         shift and go to state 6
+    CLOSE_HEADER    reduce using rule 22 (empty -> .)
+    OPEN_LIST       reduce using rule 22 (empty -> .)
+    OPEN_HEADER     reduce using rule 22 (empty -> .)
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+    CLOSE_LIST      reduce using rule 22 (empty -> .)
+    FIG_CAPTION_OPEN reduce using rule 22 (empty -> .)
+
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 16
+    empty                          shift and go to state 17
+
+state 7
+
+    (19) content -> empty .
+    (7) handle_header -> empty .
+    (17) handle_list -> empty .
+
+  ! reduce/reduce conflict for CLOSE_TABLE resolved using rule 7 (handle_header -> empty .)
+  ! reduce/reduce conflict for OPEN_HEADER resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for OPEN_LIST resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for CONTENT resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for CLOSE_TABLE resolved using rule 7 (handle_header -> empty .)
+    CLOSE_HEADER    reduce using rule 19 (content -> empty .)
+    CLOSE_TABLE     reduce using rule 7 (handle_header -> empty .)
+    OPEN_HEADER     reduce using rule 17 (handle_list -> empty .)
+    OPEN_LIST       reduce using rule 17 (handle_list -> empty .)
+    CONTENT         reduce using rule 17 (handle_list -> empty .)
+
+  ! OPEN_LIST       [ reduce using rule 19 (content -> empty .) ]
+  ! CONTENT         [ reduce using rule 19 (content -> empty .) ]
+  ! OPEN_HEADER     [ reduce using rule 19 (content -> empty .) ]
+  ! CLOSE_TABLE     [ reduce using rule 19 (content -> empty .) ]
+  ! CLOSE_TABLE     [ reduce using rule 17 (handle_list -> empty .) ]
+
+
+state 8
+
+    (2) handle_header -> OPEN_HEADER . content CLOSE_HEADER content handle_fig handle_header
+    (3) handle_header -> OPEN_HEADER . content CLOSE_HEADER handle_fig content handle_header
+    (4) handle_header -> OPEN_HEADER . content CLOSE_HEADER content handle_header
+    (5) handle_header -> OPEN_HEADER .
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (22) empty -> .
+
+    CLOSE_TABLE     reduce using rule 5 (handle_header -> OPEN_HEADER .)
+    CONTENT         shift and go to state 6
+    CLOSE_HEADER    reduce using rule 22 (empty -> .)
+
+    content                        shift and go to state 18
+    empty                          shift and go to state 17
+
+state 9
+
+    (6) handle_header -> handle_list . handle_header
+    (2) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_fig handle_header
+    (3) handle_header -> . OPEN_HEADER content CLOSE_HEADER handle_fig content handle_header
+    (4) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_header
+    (5) handle_header -> . OPEN_HEADER
+    (6) handle_header -> . handle_list handle_header
+    (7) handle_header -> . empty
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (22) empty -> .
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+
+  ! shift/reduce conflict for OPEN_HEADER resolved as shift
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! shift/reduce conflict for CONTENT resolved as shift
+    OPEN_HEADER     shift and go to state 8
+    OPEN_LIST       shift and go to state 10
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+    CONTENT         shift and go to state 6
+
+  ! OPEN_HEADER     [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    handle_list                    shift and go to state 9
+    handle_header                  shift and go to state 19
+    content                        shift and go to state 11
+    empty                          shift and go to state 20
+
+state 10
+
+    (14) handle_list -> OPEN_LIST . content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> OPEN_LIST . content CLOSE_LIST handle_list
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (22) empty -> .
+
+  ! shift/reduce conflict for CONTENT resolved as shift
+    CONTENT         shift and go to state 6
+    CLOSE_LIST      reduce using rule 22 (empty -> .)
+    OPEN_LIST       reduce using rule 22 (empty -> .)
+
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 21
+    empty                          shift and go to state 17
+
+state 11
+
+    (16) handle_list -> content . handle_list
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (22) empty -> .
+
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! shift/reduce conflict for CONTENT resolved as shift
+    OPEN_LIST       shift and go to state 10
+    CONTENT         shift and go to state 6
+    OPEN_HEADER     reduce using rule 22 (empty -> .)
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+    CLOSE_LIST      reduce using rule 22 (empty -> .)
+
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 11
+    handle_list                    shift and go to state 13
+    empty                          shift and go to state 14
+
+state 12
+
+    (20) table -> OPEN_TABLE content CLOSE_HEADER . handle_header CLOSE_TABLE
+    (2) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_fig handle_header
+    (3) handle_header -> . OPEN_HEADER content CLOSE_HEADER handle_fig content handle_header
+    (4) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_header
+    (5) handle_header -> . OPEN_HEADER
+    (6) handle_header -> . handle_list handle_header
+    (7) handle_header -> . empty
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (22) empty -> .
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+
+  ! shift/reduce conflict for OPEN_HEADER resolved as shift
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! shift/reduce conflict for CONTENT resolved as shift
+    OPEN_HEADER     shift and go to state 8
+    OPEN_LIST       shift and go to state 10
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+    CONTENT         shift and go to state 6
+
+  ! OPEN_HEADER     [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 11
+    handle_header                  shift and go to state 22
+    handle_list                    shift and go to state 9
+    empty                          shift and go to state 20
+
+state 13
+
+    (16) handle_list -> content handle_list .
+
+    OPEN_HEADER     reduce using rule 16 (handle_list -> content handle_list .)
+    OPEN_LIST       reduce using rule 16 (handle_list -> content handle_list .)
+    CONTENT         reduce using rule 16 (handle_list -> content handle_list .)
+    CLOSE_TABLE     reduce using rule 16 (handle_list -> content handle_list .)
+    CLOSE_LIST      reduce using rule 16 (handle_list -> content handle_list .)
+
+
+state 14
+
+    (17) handle_list -> empty .
+    (19) content -> empty .
+
+  ! reduce/reduce conflict for OPEN_LIST resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for CONTENT resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for OPEN_HEADER resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for CLOSE_TABLE resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for CLOSE_LIST resolved using rule 17 (handle_list -> empty .)
+    OPEN_HEADER     reduce using rule 17 (handle_list -> empty .)
+    OPEN_LIST       reduce using rule 17 (handle_list -> empty .)
+    CONTENT         reduce using rule 17 (handle_list -> empty .)
+    CLOSE_TABLE     reduce using rule 17 (handle_list -> empty .)
+    CLOSE_LIST      reduce using rule 17 (handle_list -> empty .)
+
+  ! OPEN_LIST       [ reduce using rule 19 (content -> empty .) ]
+  ! CONTENT         [ reduce using rule 19 (content -> empty .) ]
+  ! OPEN_HEADER     [ reduce using rule 19 (content -> empty .) ]
+  ! CLOSE_TABLE     [ reduce using rule 19 (content -> empty .) ]
+  ! CLOSE_LIST      [ reduce using rule 19 (content -> empty .) ]
+
+
+state 15
+
+    (21) table -> OPEN_TABLE handle_header CLOSE_TABLE .
+
+    $end            reduce using rule 21 (table -> OPEN_TABLE handle_header CLOSE_TABLE .)
+
+
+state 16
+
+    (18) content -> CONTENT content .
+
+    CLOSE_HEADER    reduce using rule 18 (content -> CONTENT content .)
+    OPEN_LIST       reduce using rule 18 (content -> CONTENT content .)
+    CONTENT         reduce using rule 18 (content -> CONTENT content .)
+    OPEN_HEADER     reduce using rule 18 (content -> CONTENT content .)
+    CLOSE_TABLE     reduce using rule 18 (content -> CONTENT content .)
+    CLOSE_LIST      reduce using rule 18 (content -> CONTENT content .)
+    FIG_CAPTION_OPEN reduce using rule 18 (content -> CONTENT content .)
+
+
+state 17
+
+    (19) content -> empty .
+
+    CLOSE_HEADER    reduce using rule 19 (content -> empty .)
+    OPEN_LIST       reduce using rule 19 (content -> empty .)
+    CONTENT         reduce using rule 19 (content -> empty .)
+    OPEN_HEADER     reduce using rule 19 (content -> empty .)
+    CLOSE_TABLE     reduce using rule 19 (content -> empty .)
+    CLOSE_LIST      reduce using rule 19 (content -> empty .)
+    FIG_CAPTION_OPEN reduce using rule 19 (content -> empty .)
+
+
+state 18
+
+    (2) handle_header -> OPEN_HEADER content . CLOSE_HEADER content handle_fig handle_header
+    (3) handle_header -> OPEN_HEADER content . CLOSE_HEADER handle_fig content handle_header
+    (4) handle_header -> OPEN_HEADER content . CLOSE_HEADER content handle_header
+
+    CLOSE_HEADER    shift and go to state 23
+
+
+state 19
+
+    (6) handle_header -> handle_list handle_header .
+
+    CLOSE_TABLE     reduce using rule 6 (handle_header -> handle_list handle_header .)
+
+
+state 20
+
+    (7) handle_header -> empty .
+    (17) handle_list -> empty .
+    (19) content -> empty .
+
+  ! reduce/reduce conflict for CLOSE_TABLE resolved using rule 7 (handle_header -> empty .)
+  ! reduce/reduce conflict for OPEN_LIST resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for CONTENT resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for OPEN_HEADER resolved using rule 17 (handle_list -> empty .)
+  ! reduce/reduce conflict for CLOSE_TABLE resolved using rule 7 (handle_header -> empty .)
+    CLOSE_TABLE     reduce using rule 7 (handle_header -> empty .)
+    OPEN_HEADER     reduce using rule 17 (handle_list -> empty .)
+    OPEN_LIST       reduce using rule 17 (handle_list -> empty .)
+    CONTENT         reduce using rule 17 (handle_list -> empty .)
+
+  ! CLOSE_TABLE     [ reduce using rule 17 (handle_list -> empty .) ]
+  ! OPEN_LIST       [ reduce using rule 19 (content -> empty .) ]
+  ! CONTENT         [ reduce using rule 19 (content -> empty .) ]
+  ! OPEN_HEADER     [ reduce using rule 19 (content -> empty .) ]
+  ! CLOSE_TABLE     [ reduce using rule 19 (content -> empty .) ]
+
+
+state 21
+
+    (14) handle_list -> OPEN_LIST content . handle_list CLOSE_LIST handle_list
+    (15) handle_list -> OPEN_LIST content . CLOSE_LIST handle_list
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (22) empty -> .
+
+  ! shift/reduce conflict for CLOSE_LIST resolved as shift
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! shift/reduce conflict for CONTENT resolved as shift
+    CLOSE_LIST      shift and go to state 25
+    OPEN_LIST       shift and go to state 10
+    CONTENT         shift and go to state 6
+
+  ! CLOSE_LIST      [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 11
+    handle_list                    shift and go to state 24
+    empty                          shift and go to state 14
+
+state 22
+
+    (20) table -> OPEN_TABLE content CLOSE_HEADER handle_header . CLOSE_TABLE
+
+    CLOSE_TABLE     shift and go to state 26
+
+
+state 23
+
+    (2) handle_header -> OPEN_HEADER content CLOSE_HEADER . content handle_fig handle_header
+    (3) handle_header -> OPEN_HEADER content CLOSE_HEADER . handle_fig content handle_header
+    (4) handle_header -> OPEN_HEADER content CLOSE_HEADER . content handle_header
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (8) handle_fig -> . FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE handle_fig
+    (9) handle_fig -> .
+    (22) empty -> .
+
+  ! shift/reduce conflict for CONTENT resolved as shift
+  ! shift/reduce conflict for FIG_CAPTION_OPEN resolved as shift
+  ! reduce/reduce conflict for OPEN_HEADER resolved using rule 9 (handle_fig -> .)
+  ! reduce/reduce conflict for OPEN_LIST resolved using rule 9 (handle_fig -> .)
+  ! shift/reduce conflict for CONTENT resolved as shift
+  ! reduce/reduce conflict for CLOSE_TABLE resolved using rule 9 (handle_fig -> .)
+    CONTENT         shift and go to state 6
+    FIG_CAPTION_OPEN shift and go to state 29
+    OPEN_HEADER     reduce using rule 9 (handle_fig -> .)
+    OPEN_LIST       reduce using rule 9 (handle_fig -> .)
+    CLOSE_TABLE     reduce using rule 9 (handle_fig -> .)
+
+  ! CONTENT         [ reduce using rule 9 (handle_fig -> .) ]
+  ! FIG_CAPTION_OPEN [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_HEADER     [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+  ! CLOSE_TABLE     [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 27
+    handle_fig                     shift and go to state 28
+    empty                          shift and go to state 17
+
+state 24
+
+    (14) handle_list -> OPEN_LIST content handle_list . CLOSE_LIST handle_list
+
+    CLOSE_LIST      shift and go to state 30
+
+
+state 25
+
+    (15) handle_list -> OPEN_LIST content CLOSE_LIST . handle_list
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (22) empty -> .
+
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! shift/reduce conflict for CONTENT resolved as shift
+    OPEN_LIST       shift and go to state 10
+    CONTENT         shift and go to state 6
+    OPEN_HEADER     reduce using rule 22 (empty -> .)
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+    CLOSE_LIST      reduce using rule 22 (empty -> .)
+
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 11
+    handle_list                    shift and go to state 31
+    empty                          shift and go to state 14
+
+state 26
+
+    (20) table -> OPEN_TABLE content CLOSE_HEADER handle_header CLOSE_TABLE .
+
+    $end            reduce using rule 20 (table -> OPEN_TABLE content CLOSE_HEADER handle_header CLOSE_TABLE .)
+
+
+state 27
+
+    (2) handle_header -> OPEN_HEADER content CLOSE_HEADER content . handle_fig handle_header
+    (4) handle_header -> OPEN_HEADER content CLOSE_HEADER content . handle_header
+    (8) handle_fig -> . FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE handle_fig
+    (9) handle_fig -> .
+    (2) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_fig handle_header
+    (3) handle_header -> . OPEN_HEADER content CLOSE_HEADER handle_fig content handle_header
+    (4) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_header
+    (5) handle_header -> . OPEN_HEADER
+    (6) handle_header -> . handle_list handle_header
+    (7) handle_header -> . empty
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (22) empty -> .
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+
+  ! shift/reduce conflict for OPEN_HEADER resolved as shift
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! reduce/reduce conflict for CLOSE_TABLE resolved using rule 9 (handle_fig -> .)
+  ! shift/reduce conflict for OPEN_HEADER resolved as shift
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! reduce/reduce conflict for CONTENT resolved using rule 9 (handle_fig -> .)
+  ! shift/reduce conflict for CONTENT resolved as shift
+    FIG_CAPTION_OPEN shift and go to state 29
+    CLOSE_TABLE     reduce using rule 9 (handle_fig -> .)
+    OPEN_HEADER     shift and go to state 8
+    OPEN_LIST       shift and go to state 10
+    CONTENT         shift and go to state 6
+
+  ! OPEN_HEADER     [ reduce using rule 9 (handle_fig -> .) ]
+  ! OPEN_LIST       [ reduce using rule 9 (handle_fig -> .) ]
+  ! CONTENT         [ reduce using rule 9 (handle_fig -> .) ]
+  ! CLOSE_TABLE     [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_HEADER     [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 11
+    handle_fig                     shift and go to state 32
+    handle_header                  shift and go to state 33
+    handle_list                    shift and go to state 9
+    empty                          shift and go to state 20
+
+state 28
+
+    (3) handle_header -> OPEN_HEADER content CLOSE_HEADER handle_fig . content handle_header
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (22) empty -> .
+
+  ! shift/reduce conflict for CONTENT resolved as shift
+    CONTENT         shift and go to state 6
+    OPEN_HEADER     reduce using rule 22 (empty -> .)
+    OPEN_LIST       reduce using rule 22 (empty -> .)
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 34
+    empty                          shift and go to state 17
+
+state 29
+
+    (8) handle_fig -> FIG_CAPTION_OPEN . skip FIG_CAPTION_CLOSE handle_fig
+    (10) skip -> . CONTENT skip
+    (11) skip -> . OPEN_LIST skip
+    (12) skip -> . CLOSE_LIST skip
+    (13) skip -> . empty
+    (22) empty -> .
+
+    CONTENT         shift and go to state 36
+    OPEN_LIST       shift and go to state 37
+    CLOSE_LIST      shift and go to state 38
+    FIG_CAPTION_CLOSE reduce using rule 22 (empty -> .)
+
+    skip                           shift and go to state 35
+    empty                          shift and go to state 39
+
+state 30
+
+    (14) handle_list -> OPEN_LIST content handle_list CLOSE_LIST . handle_list
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+    (22) empty -> .
+
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! shift/reduce conflict for CONTENT resolved as shift
+    OPEN_LIST       shift and go to state 10
+    CONTENT         shift and go to state 6
+    OPEN_HEADER     reduce using rule 22 (empty -> .)
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+    CLOSE_LIST      reduce using rule 22 (empty -> .)
+
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 11
+    handle_list                    shift and go to state 40
+    empty                          shift and go to state 14
+
+state 31
+
+    (15) handle_list -> OPEN_LIST content CLOSE_LIST handle_list .
+
+    OPEN_HEADER     reduce using rule 15 (handle_list -> OPEN_LIST content CLOSE_LIST handle_list .)
+    OPEN_LIST       reduce using rule 15 (handle_list -> OPEN_LIST content CLOSE_LIST handle_list .)
+    CONTENT         reduce using rule 15 (handle_list -> OPEN_LIST content CLOSE_LIST handle_list .)
+    CLOSE_TABLE     reduce using rule 15 (handle_list -> OPEN_LIST content CLOSE_LIST handle_list .)
+    CLOSE_LIST      reduce using rule 15 (handle_list -> OPEN_LIST content CLOSE_LIST handle_list .)
+
+
+state 32
+
+    (2) handle_header -> OPEN_HEADER content CLOSE_HEADER content handle_fig . handle_header
+    (2) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_fig handle_header
+    (3) handle_header -> . OPEN_HEADER content CLOSE_HEADER handle_fig content handle_header
+    (4) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_header
+    (5) handle_header -> . OPEN_HEADER
+    (6) handle_header -> . handle_list handle_header
+    (7) handle_header -> . empty
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (22) empty -> .
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+
+  ! shift/reduce conflict for OPEN_HEADER resolved as shift
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! shift/reduce conflict for CONTENT resolved as shift
+    OPEN_HEADER     shift and go to state 8
+    OPEN_LIST       shift and go to state 10
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+    CONTENT         shift and go to state 6
+
+  ! OPEN_HEADER     [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 11
+    handle_header                  shift and go to state 41
+    handle_list                    shift and go to state 9
+    empty                          shift and go to state 20
+
+state 33
+
+    (4) handle_header -> OPEN_HEADER content CLOSE_HEADER content handle_header .
+
+    CLOSE_TABLE     reduce using rule 4 (handle_header -> OPEN_HEADER content CLOSE_HEADER content handle_header .)
+
+
+state 34
+
+    (3) handle_header -> OPEN_HEADER content CLOSE_HEADER handle_fig content . handle_header
+    (2) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_fig handle_header
+    (3) handle_header -> . OPEN_HEADER content CLOSE_HEADER handle_fig content handle_header
+    (4) handle_header -> . OPEN_HEADER content CLOSE_HEADER content handle_header
+    (5) handle_header -> . OPEN_HEADER
+    (6) handle_header -> . handle_list handle_header
+    (7) handle_header -> . empty
+    (14) handle_list -> . OPEN_LIST content handle_list CLOSE_LIST handle_list
+    (15) handle_list -> . OPEN_LIST content CLOSE_LIST handle_list
+    (16) handle_list -> . content handle_list
+    (17) handle_list -> . empty
+    (22) empty -> .
+    (18) content -> . CONTENT content
+    (19) content -> . empty
+
+  ! shift/reduce conflict for OPEN_HEADER resolved as shift
+  ! shift/reduce conflict for OPEN_LIST resolved as shift
+  ! shift/reduce conflict for CONTENT resolved as shift
+    OPEN_HEADER     shift and go to state 8
+    OPEN_LIST       shift and go to state 10
+    CLOSE_TABLE     reduce using rule 22 (empty -> .)
+    CONTENT         shift and go to state 6
+
+  ! OPEN_HEADER     [ reduce using rule 22 (empty -> .) ]
+  ! OPEN_LIST       [ reduce using rule 22 (empty -> .) ]
+  ! CONTENT         [ reduce using rule 22 (empty -> .) ]
+
+    content                        shift and go to state 11
+    handle_header                  shift and go to state 42
+    handle_list                    shift and go to state 9
+    empty                          shift and go to state 20
+
+state 35
+
+    (8) handle_fig -> FIG_CAPTION_OPEN skip . FIG_CAPTION_CLOSE handle_fig
+
+    FIG_CAPTION_CLOSE shift and go to state 43
+
+
+state 36
+
+    (10) skip -> CONTENT . skip
+    (10) skip -> . CONTENT skip
+    (11) skip -> . OPEN_LIST skip
+    (12) skip -> . CLOSE_LIST skip
+    (13) skip -> . empty
+    (22) empty -> .
+
+    CONTENT         shift and go to state 36
+    OPEN_LIST       shift and go to state 37
+    CLOSE_LIST      shift and go to state 38
+    FIG_CAPTION_CLOSE reduce using rule 22 (empty -> .)
+
+    skip                           shift and go to state 44
+    empty                          shift and go to state 39
+
+state 37
+
+    (11) skip -> OPEN_LIST . skip
+    (10) skip -> . CONTENT skip
+    (11) skip -> . OPEN_LIST skip
+    (12) skip -> . CLOSE_LIST skip
+    (13) skip -> . empty
+    (22) empty -> .
+
+    CONTENT         shift and go to state 36
+    OPEN_LIST       shift and go to state 37
+    CLOSE_LIST      shift and go to state 38
+    FIG_CAPTION_CLOSE reduce using rule 22 (empty -> .)
+
+    skip                           shift and go to state 45
+    empty                          shift and go to state 39
+
+state 38
+
+    (12) skip -> CLOSE_LIST . skip
+    (10) skip -> . CONTENT skip
+    (11) skip -> . OPEN_LIST skip
+    (12) skip -> . CLOSE_LIST skip
+    (13) skip -> . empty
+    (22) empty -> .
+
+    CONTENT         shift and go to state 36
+    OPEN_LIST       shift and go to state 37
+    CLOSE_LIST      shift and go to state 38
+    FIG_CAPTION_CLOSE reduce using rule 22 (empty -> .)
+
+    skip                           shift and go to state 46
+    empty                          shift and go to state 39
+
+state 39
+
+    (13) skip -> empty .
+
+    FIG_CAPTION_CLOSE reduce using rule 13 (skip -> empty .)
+
+
+state 40
+
+    (14) handle_list -> OPEN_LIST content handle_list CLOSE_LIST handle_list .
+
+    OPEN_HEADER     reduce using rule 14 (handle_list -> OPEN_LIST content handle_list CLOSE_LIST handle_list .)
+    OPEN_LIST       reduce using rule 14 (handle_list -> OPEN_LIST content handle_list CLOSE_LIST handle_list .)
+    CONTENT         reduce using rule 14 (handle_list -> OPEN_LIST content handle_list CLOSE_LIST handle_list .)
+    CLOSE_TABLE     reduce using rule 14 (handle_list -> OPEN_LIST content handle_list CLOSE_LIST handle_list .)
+    CLOSE_LIST      reduce using rule 14 (handle_list -> OPEN_LIST content handle_list CLOSE_LIST handle_list .)
+
+
+state 41
+
+    (2) handle_header -> OPEN_HEADER content CLOSE_HEADER content handle_fig handle_header .
+
+    CLOSE_TABLE     reduce using rule 2 (handle_header -> OPEN_HEADER content CLOSE_HEADER content handle_fig handle_header .)
+
+
+state 42
+
+    (3) handle_header -> OPEN_HEADER content CLOSE_HEADER handle_fig content handle_header .
+
+    CLOSE_TABLE     reduce using rule 3 (handle_header -> OPEN_HEADER content CLOSE_HEADER handle_fig content handle_header .)
+
+
+state 43
+
+    (8) handle_fig -> FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE . handle_fig
+    (8) handle_fig -> . FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE handle_fig
+    (9) handle_fig -> .
+
+    FIG_CAPTION_OPEN shift and go to state 29
+    CONTENT         reduce using rule 9 (handle_fig -> .)
+    OPEN_HEADER     reduce using rule 9 (handle_fig -> .)
+    OPEN_LIST       reduce using rule 9 (handle_fig -> .)
+    CLOSE_TABLE     reduce using rule 9 (handle_fig -> .)
+
+    handle_fig                     shift and go to state 47
+
+state 44
+
+    (10) skip -> CONTENT skip .
+
+    FIG_CAPTION_CLOSE reduce using rule 10 (skip -> CONTENT skip .)
+
+
+state 45
+
+    (11) skip -> OPEN_LIST skip .
+
+    FIG_CAPTION_CLOSE reduce using rule 11 (skip -> OPEN_LIST skip .)
+
+
+state 46
+
+    (12) skip -> CLOSE_LIST skip .
+
+    FIG_CAPTION_CLOSE reduce using rule 12 (skip -> CLOSE_LIST skip .)
+
+
+state 47
+
+    (8) handle_fig -> FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE handle_fig .
+
+    CONTENT         reduce using rule 8 (handle_fig -> FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE handle_fig .)
+    OPEN_HEADER     reduce using rule 8 (handle_fig -> FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE handle_fig .)
+    OPEN_LIST       reduce using rule 8 (handle_fig -> FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE handle_fig .)
+    CLOSE_TABLE     reduce using rule 8 (handle_fig -> FIG_CAPTION_OPEN skip FIG_CAPTION_CLOSE handle_fig .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for CONTENT in state 3 resolved as shift
+WARNING: shift/reduce conflict for OPEN_HEADER in state 3 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 3 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 4 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 4 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 6 resolved as shift
+WARNING: shift/reduce conflict for OPEN_HEADER in state 9 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 9 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 9 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 10 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 11 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 11 resolved as shift
+WARNING: shift/reduce conflict for OPEN_HEADER in state 12 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 12 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 12 resolved as shift
+WARNING: shift/reduce conflict for CLOSE_LIST in state 21 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 21 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 21 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 23 resolved as shift
+WARNING: shift/reduce conflict for FIG_CAPTION_OPEN in state 23 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 23 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 25 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 25 resolved as shift
+WARNING: shift/reduce conflict for OPEN_HEADER in state 27 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 27 resolved as shift
+WARNING: shift/reduce conflict for OPEN_HEADER in state 27 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 27 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 27 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 28 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 30 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 30 resolved as shift
+WARNING: shift/reduce conflict for OPEN_HEADER in state 32 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 32 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 32 resolved as shift
+WARNING: shift/reduce conflict for OPEN_HEADER in state 34 resolved as shift
+WARNING: shift/reduce conflict for OPEN_LIST in state 34 resolved as shift
+WARNING: shift/reduce conflict for CONTENT in state 34 resolved as shift
+WARNING: reduce/reduce conflict in state 7 resolved using rule (handle_header -> empty)
+WARNING: rejected rule (content -> empty) in state 7
+WARNING: reduce/reduce conflict in state 7 resolved using rule (handle_list -> empty)
+WARNING: rejected rule (content -> empty) in state 7
+WARNING: reduce/reduce conflict in state 7 resolved using rule (handle_header -> empty)
+WARNING: rejected rule (handle_list -> empty) in state 7
+WARNING: reduce/reduce conflict in state 14 resolved using rule (handle_list -> empty)
+WARNING: rejected rule (content -> empty) in state 14
+WARNING: reduce/reduce conflict in state 20 resolved using rule (handle_header -> empty)
+WARNING: rejected rule (handle_list -> empty) in state 20
+WARNING: reduce/reduce conflict in state 20 resolved using rule (handle_list -> empty)
+WARNING: rejected rule (content -> empty) in state 20
+WARNING: reduce/reduce conflict in state 20 resolved using rule (handle_header -> empty)
+WARNING: rejected rule (content -> empty) in state 20
+WARNING: reduce/reduce conflict in state 23 resolved using rule (handle_fig -> <empty>)
+WARNING: rejected rule (empty -> <empty>) in state 23
+WARNING: reduce/reduce conflict in state 27 resolved using rule (handle_fig -> <empty>)
+WARNING: rejected rule (empty -> <empty>) in state 27

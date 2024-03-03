@@ -1,0 +1,495 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> start_d
+Rule 1     start_d -> OPENTITLE TITLE CLOSETITLE skiptag
+Rule 2     skiptag -> STYLE skiptag
+Rule 3     skiptag -> CONTENT skiptag
+Rule 4     skiptag -> XAXIS CATEGORY getdate
+Rule 5     getdate -> CONTENT CLOSEDATA CLOSETITLE skiptag1
+Rule 6     skiptag1 -> STYLE skiptag1
+Rule 7     skiptag1 -> CONTENT skiptag1
+Rule 8     skiptag1 -> OPENDATA skiptag1
+Rule 9     skiptag1 -> CLOSEDATA skiptag1
+Rule 10    skiptag1 -> CLOSETITLE skiptag1
+Rule 11    skiptag1 -> start
+Rule 12    start -> NAME getdata
+Rule 13    start -> START NAME getdata
+Rule 14    start -> START skiptag1
+Rule 15    getdata -> STYLE getdata
+Rule 16    getdata -> OPENDATA getcontent
+Rule 17    getcontent -> CONTENT CLOSEDATA
+
+Terminals, with rules where they appear
+
+CATEGORY             : 4
+CLOSEDATA            : 5 9 17
+CLOSETITLE           : 1 5 10
+CONTENT              : 3 5 7 17
+NAME                 : 12 13
+OPENDATA             : 8 16
+OPENTITLE            : 1
+START                : 13 14
+STYLE                : 2 6 15
+TITLE                : 1
+XAXIS                : 4
+error                : 
+
+Nonterminals, with rules where they appear
+
+getcontent           : 16
+getdata              : 12 13 15
+getdate              : 4
+skiptag              : 1 2 3
+skiptag1             : 5 6 7 8 9 10 14
+start                : 11
+start_d              : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . start_d
+    (1) start_d -> . OPENTITLE TITLE CLOSETITLE skiptag
+
+    OPENTITLE       shift and go to state 2
+
+    start_d                        shift and go to state 1
+
+state 1
+
+    (0) S' -> start_d .
+
+
+
+state 2
+
+    (1) start_d -> OPENTITLE . TITLE CLOSETITLE skiptag
+
+    TITLE           shift and go to state 3
+
+
+state 3
+
+    (1) start_d -> OPENTITLE TITLE . CLOSETITLE skiptag
+
+    CLOSETITLE      shift and go to state 4
+
+
+state 4
+
+    (1) start_d -> OPENTITLE TITLE CLOSETITLE . skiptag
+    (2) skiptag -> . STYLE skiptag
+    (3) skiptag -> . CONTENT skiptag
+    (4) skiptag -> . XAXIS CATEGORY getdate
+
+    STYLE           shift and go to state 6
+    CONTENT         shift and go to state 7
+    XAXIS           shift and go to state 8
+
+    skiptag                        shift and go to state 5
+
+state 5
+
+    (1) start_d -> OPENTITLE TITLE CLOSETITLE skiptag .
+
+    $end            reduce using rule 1 (start_d -> OPENTITLE TITLE CLOSETITLE skiptag .)
+
+
+state 6
+
+    (2) skiptag -> STYLE . skiptag
+    (2) skiptag -> . STYLE skiptag
+    (3) skiptag -> . CONTENT skiptag
+    (4) skiptag -> . XAXIS CATEGORY getdate
+
+    STYLE           shift and go to state 6
+    CONTENT         shift and go to state 7
+    XAXIS           shift and go to state 8
+
+    skiptag                        shift and go to state 9
+
+state 7
+
+    (3) skiptag -> CONTENT . skiptag
+    (2) skiptag -> . STYLE skiptag
+    (3) skiptag -> . CONTENT skiptag
+    (4) skiptag -> . XAXIS CATEGORY getdate
+
+    STYLE           shift and go to state 6
+    CONTENT         shift and go to state 7
+    XAXIS           shift and go to state 8
+
+    skiptag                        shift and go to state 10
+
+state 8
+
+    (4) skiptag -> XAXIS . CATEGORY getdate
+
+    CATEGORY        shift and go to state 11
+
+
+state 9
+
+    (2) skiptag -> STYLE skiptag .
+
+    $end            reduce using rule 2 (skiptag -> STYLE skiptag .)
+
+
+state 10
+
+    (3) skiptag -> CONTENT skiptag .
+
+    $end            reduce using rule 3 (skiptag -> CONTENT skiptag .)
+
+
+state 11
+
+    (4) skiptag -> XAXIS CATEGORY . getdate
+    (5) getdate -> . CONTENT CLOSEDATA CLOSETITLE skiptag1
+
+    CONTENT         shift and go to state 13
+
+    getdate                        shift and go to state 12
+
+state 12
+
+    (4) skiptag -> XAXIS CATEGORY getdate .
+
+    $end            reduce using rule 4 (skiptag -> XAXIS CATEGORY getdate .)
+
+
+state 13
+
+    (5) getdate -> CONTENT . CLOSEDATA CLOSETITLE skiptag1
+
+    CLOSEDATA       shift and go to state 14
+
+
+state 14
+
+    (5) getdate -> CONTENT CLOSEDATA . CLOSETITLE skiptag1
+
+    CLOSETITLE      shift and go to state 15
+
+
+state 15
+
+    (5) getdate -> CONTENT CLOSEDATA CLOSETITLE . skiptag1
+    (6) skiptag1 -> . STYLE skiptag1
+    (7) skiptag1 -> . CONTENT skiptag1
+    (8) skiptag1 -> . OPENDATA skiptag1
+    (9) skiptag1 -> . CLOSEDATA skiptag1
+    (10) skiptag1 -> . CLOSETITLE skiptag1
+    (11) skiptag1 -> . start
+    (12) start -> . NAME getdata
+    (13) start -> . START NAME getdata
+    (14) start -> . START skiptag1
+
+    STYLE           shift and go to state 20
+    CONTENT         shift and go to state 16
+    OPENDATA        shift and go to state 21
+    CLOSEDATA       shift and go to state 17
+    CLOSETITLE      shift and go to state 18
+    NAME            shift and go to state 23
+    START           shift and go to state 24
+
+    skiptag1                       shift and go to state 19
+    start                          shift and go to state 22
+
+state 16
+
+    (7) skiptag1 -> CONTENT . skiptag1
+    (6) skiptag1 -> . STYLE skiptag1
+    (7) skiptag1 -> . CONTENT skiptag1
+    (8) skiptag1 -> . OPENDATA skiptag1
+    (9) skiptag1 -> . CLOSEDATA skiptag1
+    (10) skiptag1 -> . CLOSETITLE skiptag1
+    (11) skiptag1 -> . start
+    (12) start -> . NAME getdata
+    (13) start -> . START NAME getdata
+    (14) start -> . START skiptag1
+
+    STYLE           shift and go to state 20
+    CONTENT         shift and go to state 16
+    OPENDATA        shift and go to state 21
+    CLOSEDATA       shift and go to state 17
+    CLOSETITLE      shift and go to state 18
+    NAME            shift and go to state 23
+    START           shift and go to state 24
+
+    skiptag1                       shift and go to state 25
+    start                          shift and go to state 22
+
+state 17
+
+    (9) skiptag1 -> CLOSEDATA . skiptag1
+    (6) skiptag1 -> . STYLE skiptag1
+    (7) skiptag1 -> . CONTENT skiptag1
+    (8) skiptag1 -> . OPENDATA skiptag1
+    (9) skiptag1 -> . CLOSEDATA skiptag1
+    (10) skiptag1 -> . CLOSETITLE skiptag1
+    (11) skiptag1 -> . start
+    (12) start -> . NAME getdata
+    (13) start -> . START NAME getdata
+    (14) start -> . START skiptag1
+
+    STYLE           shift and go to state 20
+    CONTENT         shift and go to state 16
+    OPENDATA        shift and go to state 21
+    CLOSEDATA       shift and go to state 17
+    CLOSETITLE      shift and go to state 18
+    NAME            shift and go to state 23
+    START           shift and go to state 24
+
+    skiptag1                       shift and go to state 26
+    start                          shift and go to state 22
+
+state 18
+
+    (10) skiptag1 -> CLOSETITLE . skiptag1
+    (6) skiptag1 -> . STYLE skiptag1
+    (7) skiptag1 -> . CONTENT skiptag1
+    (8) skiptag1 -> . OPENDATA skiptag1
+    (9) skiptag1 -> . CLOSEDATA skiptag1
+    (10) skiptag1 -> . CLOSETITLE skiptag1
+    (11) skiptag1 -> . start
+    (12) start -> . NAME getdata
+    (13) start -> . START NAME getdata
+    (14) start -> . START skiptag1
+
+    STYLE           shift and go to state 20
+    CONTENT         shift and go to state 16
+    OPENDATA        shift and go to state 21
+    CLOSEDATA       shift and go to state 17
+    CLOSETITLE      shift and go to state 18
+    NAME            shift and go to state 23
+    START           shift and go to state 24
+
+    skiptag1                       shift and go to state 27
+    start                          shift and go to state 22
+
+state 19
+
+    (5) getdate -> CONTENT CLOSEDATA CLOSETITLE skiptag1 .
+
+    $end            reduce using rule 5 (getdate -> CONTENT CLOSEDATA CLOSETITLE skiptag1 .)
+
+
+state 20
+
+    (6) skiptag1 -> STYLE . skiptag1
+    (6) skiptag1 -> . STYLE skiptag1
+    (7) skiptag1 -> . CONTENT skiptag1
+    (8) skiptag1 -> . OPENDATA skiptag1
+    (9) skiptag1 -> . CLOSEDATA skiptag1
+    (10) skiptag1 -> . CLOSETITLE skiptag1
+    (11) skiptag1 -> . start
+    (12) start -> . NAME getdata
+    (13) start -> . START NAME getdata
+    (14) start -> . START skiptag1
+
+    STYLE           shift and go to state 20
+    CONTENT         shift and go to state 16
+    OPENDATA        shift and go to state 21
+    CLOSEDATA       shift and go to state 17
+    CLOSETITLE      shift and go to state 18
+    NAME            shift and go to state 23
+    START           shift and go to state 24
+
+    skiptag1                       shift and go to state 28
+    start                          shift and go to state 22
+
+state 21
+
+    (8) skiptag1 -> OPENDATA . skiptag1
+    (6) skiptag1 -> . STYLE skiptag1
+    (7) skiptag1 -> . CONTENT skiptag1
+    (8) skiptag1 -> . OPENDATA skiptag1
+    (9) skiptag1 -> . CLOSEDATA skiptag1
+    (10) skiptag1 -> . CLOSETITLE skiptag1
+    (11) skiptag1 -> . start
+    (12) start -> . NAME getdata
+    (13) start -> . START NAME getdata
+    (14) start -> . START skiptag1
+
+    STYLE           shift and go to state 20
+    CONTENT         shift and go to state 16
+    OPENDATA        shift and go to state 21
+    CLOSEDATA       shift and go to state 17
+    CLOSETITLE      shift and go to state 18
+    NAME            shift and go to state 23
+    START           shift and go to state 24
+
+    skiptag1                       shift and go to state 29
+    start                          shift and go to state 22
+
+state 22
+
+    (11) skiptag1 -> start .
+
+    $end            reduce using rule 11 (skiptag1 -> start .)
+
+
+state 23
+
+    (12) start -> NAME . getdata
+    (15) getdata -> . STYLE getdata
+    (16) getdata -> . OPENDATA getcontent
+
+    STYLE           shift and go to state 31
+    OPENDATA        shift and go to state 32
+
+    getdata                        shift and go to state 30
+
+state 24
+
+    (13) start -> START . NAME getdata
+    (14) start -> START . skiptag1
+    (6) skiptag1 -> . STYLE skiptag1
+    (7) skiptag1 -> . CONTENT skiptag1
+    (8) skiptag1 -> . OPENDATA skiptag1
+    (9) skiptag1 -> . CLOSEDATA skiptag1
+    (10) skiptag1 -> . CLOSETITLE skiptag1
+    (11) skiptag1 -> . start
+    (12) start -> . NAME getdata
+    (13) start -> . START NAME getdata
+    (14) start -> . START skiptag1
+
+    NAME            shift and go to state 33
+    STYLE           shift and go to state 20
+    CONTENT         shift and go to state 16
+    OPENDATA        shift and go to state 21
+    CLOSEDATA       shift and go to state 17
+    CLOSETITLE      shift and go to state 18
+    START           shift and go to state 24
+
+    skiptag1                       shift and go to state 34
+    start                          shift and go to state 22
+
+state 25
+
+    (7) skiptag1 -> CONTENT skiptag1 .
+
+    $end            reduce using rule 7 (skiptag1 -> CONTENT skiptag1 .)
+
+
+state 26
+
+    (9) skiptag1 -> CLOSEDATA skiptag1 .
+
+    $end            reduce using rule 9 (skiptag1 -> CLOSEDATA skiptag1 .)
+
+
+state 27
+
+    (10) skiptag1 -> CLOSETITLE skiptag1 .
+
+    $end            reduce using rule 10 (skiptag1 -> CLOSETITLE skiptag1 .)
+
+
+state 28
+
+    (6) skiptag1 -> STYLE skiptag1 .
+
+    $end            reduce using rule 6 (skiptag1 -> STYLE skiptag1 .)
+
+
+state 29
+
+    (8) skiptag1 -> OPENDATA skiptag1 .
+
+    $end            reduce using rule 8 (skiptag1 -> OPENDATA skiptag1 .)
+
+
+state 30
+
+    (12) start -> NAME getdata .
+
+    $end            reduce using rule 12 (start -> NAME getdata .)
+
+
+state 31
+
+    (15) getdata -> STYLE . getdata
+    (15) getdata -> . STYLE getdata
+    (16) getdata -> . OPENDATA getcontent
+
+    STYLE           shift and go to state 31
+    OPENDATA        shift and go to state 32
+
+    getdata                        shift and go to state 35
+
+state 32
+
+    (16) getdata -> OPENDATA . getcontent
+    (17) getcontent -> . CONTENT CLOSEDATA
+
+    CONTENT         shift and go to state 37
+
+    getcontent                     shift and go to state 36
+
+state 33
+
+    (13) start -> START NAME . getdata
+    (12) start -> NAME . getdata
+    (15) getdata -> . STYLE getdata
+    (16) getdata -> . OPENDATA getcontent
+
+    STYLE           shift and go to state 31
+    OPENDATA        shift and go to state 32
+
+    getdata                        shift and go to state 38
+
+state 34
+
+    (14) start -> START skiptag1 .
+
+    $end            reduce using rule 14 (start -> START skiptag1 .)
+
+
+state 35
+
+    (15) getdata -> STYLE getdata .
+
+    $end            reduce using rule 15 (getdata -> STYLE getdata .)
+
+
+state 36
+
+    (16) getdata -> OPENDATA getcontent .
+
+    $end            reduce using rule 16 (getdata -> OPENDATA getcontent .)
+
+
+state 37
+
+    (17) getcontent -> CONTENT . CLOSEDATA
+
+    CLOSEDATA       shift and go to state 39
+
+
+state 38
+
+    (13) start -> START NAME getdata .
+    (12) start -> NAME getdata .
+
+  ! reduce/reduce conflict for $end resolved using rule 12 (start -> NAME getdata .)
+    $end            reduce using rule 12 (start -> NAME getdata .)
+
+  ! $end            [ reduce using rule 13 (start -> START NAME getdata .) ]
+
+
+state 39
+
+    (17) getcontent -> CONTENT CLOSEDATA .
+
+    $end            reduce using rule 17 (getcontent -> CONTENT CLOSEDATA .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: reduce/reduce conflict in state 38 resolved using rule (start -> NAME getdata)
+WARNING: rejected rule (start -> START NAME getdata) in state 38
+WARNING: Rule (start -> START NAME getdata) is never reduced

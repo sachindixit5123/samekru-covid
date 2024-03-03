@@ -1,0 +1,347 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> start_d
+Rule 1     start_d -> OPEN_TITLE TITLE CLOSE_TITLE skip_tag
+Rule 2     skip_tag -> STYLE skip_tag
+Rule 3     skip_tag -> CONTENT skip_tag
+Rule 4     skip_tag -> X_AXIS CATEGORY get_date
+Rule 5     get_date -> CONTENT CLOSE_DATA CLOSE_TITLE skip_tag1
+Rule 6     skip_tag1 -> STYLE skip_tag1
+Rule 7     skip_tag1 -> CONTENT skip_tag1
+Rule 8     skip_tag1 -> CLOSE_DATA skip_tag1
+Rule 9     skip_tag1 -> start
+Rule 10    start -> START NAME get_data
+Rule 11    get_data -> STYLE get_data
+Rule 12    get_data -> OPEN_DATA get_content
+Rule 13    get_content -> CONTENT CLOSE_DATA
+
+Terminals, with rules where they appear
+
+CATEGORY             : 4
+CLOSE_DATA           : 5 8 13
+CLOSE_TITLE          : 1 5
+CONTENT              : 3 5 7 13
+NAME                 : 10
+OPEN_DATA            : 12
+OPEN_TITLE           : 1
+START                : 10
+STYLE                : 2 6 11
+TITLE                : 1
+X_AXIS               : 4
+error                : 
+
+Nonterminals, with rules where they appear
+
+get_content          : 12
+get_data             : 10 11
+get_date             : 4
+skip_tag             : 1 2 3
+skip_tag1            : 5 6 7 8
+start                : 9
+start_d              : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . start_d
+    (1) start_d -> . OPEN_TITLE TITLE CLOSE_TITLE skip_tag
+
+    OPEN_TITLE      shift and go to state 2
+
+    start_d                        shift and go to state 1
+
+state 1
+
+    (0) S' -> start_d .
+
+
+
+state 2
+
+    (1) start_d -> OPEN_TITLE . TITLE CLOSE_TITLE skip_tag
+
+    TITLE           shift and go to state 3
+
+
+state 3
+
+    (1) start_d -> OPEN_TITLE TITLE . CLOSE_TITLE skip_tag
+
+    CLOSE_TITLE     shift and go to state 4
+
+
+state 4
+
+    (1) start_d -> OPEN_TITLE TITLE CLOSE_TITLE . skip_tag
+    (2) skip_tag -> . STYLE skip_tag
+    (3) skip_tag -> . CONTENT skip_tag
+    (4) skip_tag -> . X_AXIS CATEGORY get_date
+
+    STYLE           shift and go to state 6
+    CONTENT         shift and go to state 7
+    X_AXIS          shift and go to state 8
+
+    skip_tag                       shift and go to state 5
+
+state 5
+
+    (1) start_d -> OPEN_TITLE TITLE CLOSE_TITLE skip_tag .
+
+    $end            reduce using rule 1 (start_d -> OPEN_TITLE TITLE CLOSE_TITLE skip_tag .)
+
+
+state 6
+
+    (2) skip_tag -> STYLE . skip_tag
+    (2) skip_tag -> . STYLE skip_tag
+    (3) skip_tag -> . CONTENT skip_tag
+    (4) skip_tag -> . X_AXIS CATEGORY get_date
+
+    STYLE           shift and go to state 6
+    CONTENT         shift and go to state 7
+    X_AXIS          shift and go to state 8
+
+    skip_tag                       shift and go to state 9
+
+state 7
+
+    (3) skip_tag -> CONTENT . skip_tag
+    (2) skip_tag -> . STYLE skip_tag
+    (3) skip_tag -> . CONTENT skip_tag
+    (4) skip_tag -> . X_AXIS CATEGORY get_date
+
+    STYLE           shift and go to state 6
+    CONTENT         shift and go to state 7
+    X_AXIS          shift and go to state 8
+
+    skip_tag                       shift and go to state 10
+
+state 8
+
+    (4) skip_tag -> X_AXIS . CATEGORY get_date
+
+    CATEGORY        shift and go to state 11
+
+
+state 9
+
+    (2) skip_tag -> STYLE skip_tag .
+
+    $end            reduce using rule 2 (skip_tag -> STYLE skip_tag .)
+
+
+state 10
+
+    (3) skip_tag -> CONTENT skip_tag .
+
+    $end            reduce using rule 3 (skip_tag -> CONTENT skip_tag .)
+
+
+state 11
+
+    (4) skip_tag -> X_AXIS CATEGORY . get_date
+    (5) get_date -> . CONTENT CLOSE_DATA CLOSE_TITLE skip_tag1
+
+    CONTENT         shift and go to state 13
+
+    get_date                       shift and go to state 12
+
+state 12
+
+    (4) skip_tag -> X_AXIS CATEGORY get_date .
+
+    $end            reduce using rule 4 (skip_tag -> X_AXIS CATEGORY get_date .)
+
+
+state 13
+
+    (5) get_date -> CONTENT . CLOSE_DATA CLOSE_TITLE skip_tag1
+
+    CLOSE_DATA      shift and go to state 14
+
+
+state 14
+
+    (5) get_date -> CONTENT CLOSE_DATA . CLOSE_TITLE skip_tag1
+
+    CLOSE_TITLE     shift and go to state 15
+
+
+state 15
+
+    (5) get_date -> CONTENT CLOSE_DATA CLOSE_TITLE . skip_tag1
+    (6) skip_tag1 -> . STYLE skip_tag1
+    (7) skip_tag1 -> . CONTENT skip_tag1
+    (8) skip_tag1 -> . CLOSE_DATA skip_tag1
+    (9) skip_tag1 -> . start
+    (10) start -> . START NAME get_data
+
+    STYLE           shift and go to state 19
+    CONTENT         shift and go to state 16
+    CLOSE_DATA      shift and go to state 17
+    START           shift and go to state 21
+
+    skip_tag1                      shift and go to state 18
+    start                          shift and go to state 20
+
+state 16
+
+    (7) skip_tag1 -> CONTENT . skip_tag1
+    (6) skip_tag1 -> . STYLE skip_tag1
+    (7) skip_tag1 -> . CONTENT skip_tag1
+    (8) skip_tag1 -> . CLOSE_DATA skip_tag1
+    (9) skip_tag1 -> . start
+    (10) start -> . START NAME get_data
+
+    STYLE           shift and go to state 19
+    CONTENT         shift and go to state 16
+    CLOSE_DATA      shift and go to state 17
+    START           shift and go to state 21
+
+    skip_tag1                      shift and go to state 22
+    start                          shift and go to state 20
+
+state 17
+
+    (8) skip_tag1 -> CLOSE_DATA . skip_tag1
+    (6) skip_tag1 -> . STYLE skip_tag1
+    (7) skip_tag1 -> . CONTENT skip_tag1
+    (8) skip_tag1 -> . CLOSE_DATA skip_tag1
+    (9) skip_tag1 -> . start
+    (10) start -> . START NAME get_data
+
+    STYLE           shift and go to state 19
+    CONTENT         shift and go to state 16
+    CLOSE_DATA      shift and go to state 17
+    START           shift and go to state 21
+
+    skip_tag1                      shift and go to state 23
+    start                          shift and go to state 20
+
+state 18
+
+    (5) get_date -> CONTENT CLOSE_DATA CLOSE_TITLE skip_tag1 .
+
+    $end            reduce using rule 5 (get_date -> CONTENT CLOSE_DATA CLOSE_TITLE skip_tag1 .)
+
+
+state 19
+
+    (6) skip_tag1 -> STYLE . skip_tag1
+    (6) skip_tag1 -> . STYLE skip_tag1
+    (7) skip_tag1 -> . CONTENT skip_tag1
+    (8) skip_tag1 -> . CLOSE_DATA skip_tag1
+    (9) skip_tag1 -> . start
+    (10) start -> . START NAME get_data
+
+    STYLE           shift and go to state 19
+    CONTENT         shift and go to state 16
+    CLOSE_DATA      shift and go to state 17
+    START           shift and go to state 21
+
+    skip_tag1                      shift and go to state 24
+    start                          shift and go to state 20
+
+state 20
+
+    (9) skip_tag1 -> start .
+
+    $end            reduce using rule 9 (skip_tag1 -> start .)
+
+
+state 21
+
+    (10) start -> START . NAME get_data
+
+    NAME            shift and go to state 25
+
+
+state 22
+
+    (7) skip_tag1 -> CONTENT skip_tag1 .
+
+    $end            reduce using rule 7 (skip_tag1 -> CONTENT skip_tag1 .)
+
+
+state 23
+
+    (8) skip_tag1 -> CLOSE_DATA skip_tag1 .
+
+    $end            reduce using rule 8 (skip_tag1 -> CLOSE_DATA skip_tag1 .)
+
+
+state 24
+
+    (6) skip_tag1 -> STYLE skip_tag1 .
+
+    $end            reduce using rule 6 (skip_tag1 -> STYLE skip_tag1 .)
+
+
+state 25
+
+    (10) start -> START NAME . get_data
+    (11) get_data -> . STYLE get_data
+    (12) get_data -> . OPEN_DATA get_content
+
+    STYLE           shift and go to state 27
+    OPEN_DATA       shift and go to state 28
+
+    get_data                       shift and go to state 26
+
+state 26
+
+    (10) start -> START NAME get_data .
+
+    $end            reduce using rule 10 (start -> START NAME get_data .)
+
+
+state 27
+
+    (11) get_data -> STYLE . get_data
+    (11) get_data -> . STYLE get_data
+    (12) get_data -> . OPEN_DATA get_content
+
+    STYLE           shift and go to state 27
+    OPEN_DATA       shift and go to state 28
+
+    get_data                       shift and go to state 29
+
+state 28
+
+    (12) get_data -> OPEN_DATA . get_content
+    (13) get_content -> . CONTENT CLOSE_DATA
+
+    CONTENT         shift and go to state 31
+
+    get_content                    shift and go to state 30
+
+state 29
+
+    (11) get_data -> STYLE get_data .
+
+    $end            reduce using rule 11 (get_data -> STYLE get_data .)
+
+
+state 30
+
+    (12) get_data -> OPEN_DATA get_content .
+
+    $end            reduce using rule 12 (get_data -> OPEN_DATA get_content .)
+
+
+state 31
+
+    (13) get_content -> CONTENT . CLOSE_DATA
+
+    CLOSE_DATA      shift and go to state 32
+
+
+state 32
+
+    (13) get_content -> CONTENT CLOSE_DATA .
+
+    $end            reduce using rule 13 (get_content -> CONTENT CLOSE_DATA .)
+
