@@ -1,0 +1,229 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    BEGIN
+    CLOSEDATA
+    CLOSEDIV
+    CLOSEHEADER
+    CLOSEHREF
+    CLOSEROW
+    CLOSESPAN
+    OPENDATA
+    OPENDIV
+    OPENHREF
+    OPENSPAN
+    PATTERN
+    YES
+
+Grammar
+
+Rule 0     S' -> start
+Rule 1     start -> OPENLIST DATE content CLOSELIST
+Rule 2     start -> DATE content CLOSELIST
+Rule 3     content -> CONTENT content
+Rule 4     content -> DATE content
+Rule 5     content -> OPENLIST content CLOSELIST content
+Rule 6     content -> <empty>
+Rule 7     skipstart -> GARBAGE skipstart
+Rule 8     skipstart -> <empty>
+
+Terminals, with rules where they appear
+
+BEGIN                : 
+CLOSEDATA            : 
+CLOSEDIV             : 
+CLOSEHEADER          : 
+CLOSEHREF            : 
+CLOSELIST            : 1 2 5
+CLOSEROW             : 
+CLOSESPAN            : 
+CONTENT              : 3
+DATE                 : 1 2 4
+GARBAGE              : 7
+OPENDATA             : 
+OPENDIV              : 
+OPENHREF             : 
+OPENLIST             : 1 5
+OPENSPAN             : 
+PATTERN              : 
+YES                  : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+content              : 1 2 3 4 5 5
+skipstart            : 7
+start                : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . start
+    (1) start -> . OPENLIST DATE content CLOSELIST
+    (2) start -> . DATE content CLOSELIST
+
+    OPENLIST        shift and go to state 2
+    DATE            shift and go to state 3
+
+    start                          shift and go to state 1
+
+state 1
+
+    (0) S' -> start .
+
+
+
+state 2
+
+    (1) start -> OPENLIST . DATE content CLOSELIST
+
+    DATE            shift and go to state 4
+
+
+state 3
+
+    (2) start -> DATE . content CLOSELIST
+    (3) content -> . CONTENT content
+    (4) content -> . DATE content
+    (5) content -> . OPENLIST content CLOSELIST content
+    (6) content -> .
+
+    CONTENT         shift and go to state 7
+    DATE            shift and go to state 5
+    OPENLIST        shift and go to state 8
+    CLOSELIST       reduce using rule 6 (content -> .)
+
+    content                        shift and go to state 6
+
+state 4
+
+    (1) start -> OPENLIST DATE . content CLOSELIST
+    (3) content -> . CONTENT content
+    (4) content -> . DATE content
+    (5) content -> . OPENLIST content CLOSELIST content
+    (6) content -> .
+
+    CONTENT         shift and go to state 7
+    DATE            shift and go to state 5
+    OPENLIST        shift and go to state 8
+    CLOSELIST       reduce using rule 6 (content -> .)
+
+    content                        shift and go to state 9
+
+state 5
+
+    (4) content -> DATE . content
+    (3) content -> . CONTENT content
+    (4) content -> . DATE content
+    (5) content -> . OPENLIST content CLOSELIST content
+    (6) content -> .
+
+    CONTENT         shift and go to state 7
+    DATE            shift and go to state 5
+    OPENLIST        shift and go to state 8
+    CLOSELIST       reduce using rule 6 (content -> .)
+
+    content                        shift and go to state 10
+
+state 6
+
+    (2) start -> DATE content . CLOSELIST
+
+    CLOSELIST       shift and go to state 11
+
+
+state 7
+
+    (3) content -> CONTENT . content
+    (3) content -> . CONTENT content
+    (4) content -> . DATE content
+    (5) content -> . OPENLIST content CLOSELIST content
+    (6) content -> .
+
+    CONTENT         shift and go to state 7
+    DATE            shift and go to state 5
+    OPENLIST        shift and go to state 8
+    CLOSELIST       reduce using rule 6 (content -> .)
+
+    content                        shift and go to state 12
+
+state 8
+
+    (5) content -> OPENLIST . content CLOSELIST content
+    (3) content -> . CONTENT content
+    (4) content -> . DATE content
+    (5) content -> . OPENLIST content CLOSELIST content
+    (6) content -> .
+
+    CONTENT         shift and go to state 7
+    DATE            shift and go to state 5
+    OPENLIST        shift and go to state 8
+    CLOSELIST       reduce using rule 6 (content -> .)
+
+    content                        shift and go to state 13
+
+state 9
+
+    (1) start -> OPENLIST DATE content . CLOSELIST
+
+    CLOSELIST       shift and go to state 14
+
+
+state 10
+
+    (4) content -> DATE content .
+
+    CLOSELIST       reduce using rule 4 (content -> DATE content .)
+
+
+state 11
+
+    (2) start -> DATE content CLOSELIST .
+
+    $end            reduce using rule 2 (start -> DATE content CLOSELIST .)
+
+
+state 12
+
+    (3) content -> CONTENT content .
+
+    CLOSELIST       reduce using rule 3 (content -> CONTENT content .)
+
+
+state 13
+
+    (5) content -> OPENLIST content . CLOSELIST content
+
+    CLOSELIST       shift and go to state 15
+
+
+state 14
+
+    (1) start -> OPENLIST DATE content CLOSELIST .
+
+    $end            reduce using rule 1 (start -> OPENLIST DATE content CLOSELIST .)
+
+
+state 15
+
+    (5) content -> OPENLIST content CLOSELIST . content
+    (3) content -> . CONTENT content
+    (4) content -> . DATE content
+    (5) content -> . OPENLIST content CLOSELIST content
+    (6) content -> .
+
+    CONTENT         shift and go to state 7
+    DATE            shift and go to state 5
+    OPENLIST        shift and go to state 8
+    CLOSELIST       reduce using rule 6 (content -> .)
+
+    content                        shift and go to state 16
+
+state 16
+
+    (5) content -> OPENLIST content CLOSELIST content .
+
+    CLOSELIST       reduce using rule 5 (content -> OPENLIST content CLOSELIST content .)
+
