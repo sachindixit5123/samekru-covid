@@ -1,2 +1,0 @@
-print("sad")
-print("hi")
