@@ -102,12 +102,12 @@ def main():
             active_change = calculate_change(start_active, end_active)
             
 
-            print(f"For the given country {country}:")
-            print(f"Query {query} Change is in %: {active_change:.2f}%")
+            print(f"The country Entered by you is: {country}:")
+            print(f"The requested percentage Change is : {active_change:.2f}%")
            
 
             closest_country, min_difference = find_closest_country(country_name, active_change, query, country_data)
-            print(f"Closest country similar to query {query}: {closest_country} with difference as {min_difference}")
+            print(f"Closest country similar to the requested statistic is : {closest_country} with difference as {min_difference}")
 
 if __name__ == "__main__":
     main()

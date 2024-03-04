@@ -1,1 +1,1 @@
-The closest country is: Singapore with Jaccard similarity: 0.05
+The closest country is: Malaysia with Jaccard similarity: 0.05905511811023622
